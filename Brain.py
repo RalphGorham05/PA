@@ -18,6 +18,8 @@ class Brain:
 		self.mouth.speak(current_time)
 
 	def tell_weather(self):
+		# wunderground key 4e5650239b5d5af8
+		# http://api.wunderground.com/api/4e5650239b5d5af8/conditions/q/10550.json
 		self.mouth.speak('i dont know weather yet')
 
 
