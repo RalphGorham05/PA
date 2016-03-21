@@ -5,6 +5,8 @@ import json
 import mechanize
 import webbrowser
 
+from phue import Bridge
+
 
 class Brain:
     def __init__(self):
@@ -15,6 +17,12 @@ class Brain:
         self.forecast = {}
 
     def assess(self, data):
+        if 'Neil' in data:
+            self.mouth.speak('I will get you out of the matrix but first how can i help you')
+            self.ears.listen_to()
+            self.ears.get_message()
+            self.assess(self.ears.message)
+
         if 'time' in data:
             self.tell_time()
         elif 'weather' in data:
@@ -33,15 +41,18 @@ class Brain:
             self.ears.get_message()
             zip_code = self.ears.message
             self.get_forecast(zip_code)
-            self.tell_forecast
-        elif 'go to' in data:
+  
+        elif 'open' in data:
             self.open_page()
+
+        elif 'light' in data:
+            self.lights()
+
         else:
             self.mouth.speak('I dont understand')
             self.mouth.speak('have a nice day')
             self.mouth.close_mouth()
 
-            self.mouth.tongue.runAndWait()
 
     def tell_time(self):
         current_time = "Current time  is %s:%s %s" % (time.strftime("%I"), time.strftime("%M"), time.strftime("%p"))
@@ -76,23 +87,26 @@ class Brain:
         parsed_json = json.loads(json_string)
         for day in parsed_json['forecast']['simpleforecast']['forecastday']:
             self.forecast[day['date']['weekday'] + str(day['date']['day'])] = [str(day['conditions']), str(day['high']['fahrenheit'])]
-
-
-    def tell_forecast(self):
-        if self.forecast:
-            for day, forecast in self.forecast.iteritems():
-                self.mouth.speak('the forecast for %s is %s degrees' % (day, forecast))
-                self.mouth.close_mouth()
+        for day, forecast in self.forecast.iteritems():
+            self.mouth.speak('the forecast for %s is %s degrees' % (day, forecast))
+        
 
     def open_page(self):
         webbrowser.open('www.ign.com')
 
+    def lights(self):
+        b = Bridge('192.168.0.5')
+        b.set_light('Bedroom','on', True)
+        b.set_light('Bedroom', 'bri', 127)
+
+
 
 
 br = Brain()
-br.ears.listen_to()
-br.ears.get_message()
+br.ears.eardrum()
 br.assess(br.ears.message)
+
+
 
 
 

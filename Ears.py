@@ -25,3 +25,4 @@ class Ears:
 
     def eardrum(self):
         self.listen_to()
+        self.get_message()
