@@ -4,6 +4,7 @@ import time
 import json
 import mechanize
 import webbrowser
+from bs4 import BeautifulSoup
 
 from phue import Bridge
 
@@ -41,7 +42,7 @@ class Brain:
             self.ears.get_message()
             zip_code = self.ears.message
             self.get_forecast(zip_code)
-  
+
         elif 'open' in data:
             self.open_page()
 
@@ -89,7 +90,7 @@ class Brain:
             self.forecast[day['date']['weekday'] + str(day['date']['day'])] = [str(day['conditions']), str(day['high']['fahrenheit'])]
         for day, forecast in self.forecast.iteritems():
             self.mouth.speak('the forecast for %s is %s degrees' % (day, forecast))
-        
+
 
     def open_page(self):
         webbrowser.open('www.ign.com')
@@ -99,17 +100,19 @@ class Brain:
         b.set_light('Bedroom','on', True)
         b.set_light('Bedroom', 'bri', 127)
 
+    def get_showtime(self):
+        movie_url = 'http://www.google.com/movies?hl=en&near=10550&dq=movie+times+10550&sa=X&oi=showtimes&ct=title&cd=1'
+        browser = mechanize.Browser()
+        browser.set_handle_robots(False)
+        m = browser.open(movie_url)
+        soup = BeautifulSoup(m)
+        s = soup.find_all(class = 'theater')
+        print s
+
 
 
 
 br = Brain()
-br.ears.eardrum()
-br.assess(br.ears.message)
-
-
-
-
-
-
-
-
+# br.ears.eardrum()
+# br.assess(br.ears.message)
+br.get_showtime()
