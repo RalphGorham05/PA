@@ -4,6 +4,8 @@ import time
 import json
 import mechanize
 import webbrowser
+import vtest
+from vtest import Auto_NAT
 from bs4 import BeautifulSoup
 
 from phue import Bridge
@@ -13,6 +15,7 @@ class Brain:
     def __init__(self):
         self.mouth = Mouth()
         self.ears = Ears()
+        self.va = Auto_NAT()
         self.current_weather = None
         self.current_temp = None
         self.forecast = {}
@@ -48,6 +51,9 @@ class Brain:
 
         elif 'light' in data:
             self.lights()
+
+        elif 'assistant' in data:
+            self.va()
 
         else:
             self.mouth.speak('I dont understand')
@@ -106,13 +112,18 @@ class Brain:
         browser.set_handle_robots(False)
         m = browser.open(movie_url)
         soup = BeautifulSoup(m)
-        s = soup.find_all(class = 'theater')
-        print s
+        # s = soup.find_all(class = 'theater')
+        # print s
+
+    def va(self):
+        va = self.va
+        va.run()
+        
 
 
 
 
 br = Brain()
-# br.ears.eardrum()
-# br.assess(br.ears.message)
-br.get_showtime()
+br.ears.eardrum()
+br.assess(br.ears.message)
+#br.get_showtime()
