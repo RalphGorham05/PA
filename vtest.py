@@ -3,7 +3,6 @@
 import mechanize
 from mechanize import Browser
 from bs4 import BeautifulSoup
-from robobrowser import RoboBrowser
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -130,12 +129,12 @@ class Auto_NAT:
                 va = 'https://vastage1.creativevirtual15.com/ihgstaging/bot.html?isJSEnabled=1&channel=Root'
                 user = mechanize.Browser()
                 # user.set_handle_robots(False)
-                u = user.open(va)
+                user.open(va)
                 # soup = BeatifulSoup(u)
                 # text = soup.find('input',{'id' : 'user_entry'}).get('value')
-                u.select_form(name = 'form_lingubot')
-                u['entry'] = 'how many points for a room'
-                u.submit()
+                user.select_form(name = 'form_lingubot')
+                user['entry'] = 'how many points for a room'
+                user.submit()
             
                 
                 
