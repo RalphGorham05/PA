@@ -21,8 +21,8 @@ class Brain:
         self.forecast = {}
 
     def assess(self, data):
-        if 'Neil' in data:
-            self.mouth.speak('I will get you out of the matrix but first how can i help you')
+        if 'Emma' in data:
+            self.mouth.speak('Hello Lovely')
             self.ears.listen_to()
             self.ears.get_message()
             self.assess(self.ears.message)
